@@ -5,12 +5,14 @@ typedef enum{
   PIXF_YUVNV12,
   PIXF_BGRX,
   PIXF_BGRA,
-  PIXF_RGB24
+  PIXF_RGB24,
+  PIXF_YUV444_10BIT
 }PIXF;
 
 uint8_t PIXF_GetImageCount(PIXF pixf){
   switch(pixf){
     case PIXF_YUV420p:
+    case PIXF_YUV444_10BIT:
     {
       return 3;
     }
@@ -87,6 +89,8 @@ void PIXF_GetImageSize(PIXF pixf, uint8_t ImageIndex, uint32_t *x, uint32_t *y){
       *x *= 3;
       return;
     }
+    case PIXF_YUV444_10BIT: // No chroma subsampling
+      return;
     default:{
       __abort();
       __unreachable();
